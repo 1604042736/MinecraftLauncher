@@ -1,3 +1,4 @@
 .minecraft/
 config.json
-build/
+Logs/
+__pycache__/

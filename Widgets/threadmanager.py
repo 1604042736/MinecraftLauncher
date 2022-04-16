@@ -1,6 +1,4 @@
 from inspect import isgenerator
-import logging
-
 from QtBase.basewidget import *
 from Ui.threadmanager_ui import *
 import globals as g

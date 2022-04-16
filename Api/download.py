@@ -1,4 +1,5 @@
-import logging
+import time
+import globals as g
 import os
 import requests
 
@@ -15,26 +16,31 @@ class Download:
             pass
 
         with open(path, 'wb')as fileobj:
-            try:
-                rsp = requests.get(url, stream=True)
-                offset = 0
-                for chunk in rsp.iter_content(chunk_size=10240):
-                    if not chunk:
-                        break
-                    fileobj.seek(offset)  # 设置指针位置
-                    fileobj.write(chunk)  # 写入文件
-                    offset = offset + len(chunk)
-                    proess = offset / \
-                        int(rsp.headers['Content-Length']) * 100  # 进度
-                    yield int(proess)
-            except Exception as e:
-                print(e)
+            while True:
+                try:
+                    rsp = requests.get(url, stream=True, timeout=5)
+                    offset = 0
+                    for chunk in rsp.iter_content(chunk_size=10240):
+                        if not chunk:
+                            break
+                        fileobj.seek(offset)  # 设置指针位置
+                        fileobj.write(chunk)  # 写入文件
+                        offset = offset + len(chunk)
+                        proess = offset / \
+                            int(rsp.headers['Content-Length']) * 100  # 进度
+                        yield int(proess)
+                    break
+                except Exception as e:
+                    g.logapi.error(e)
+                    if url:
+                        g.logapi.info(f'尝试重新下载"{url}"')
+                        time.sleep(0.5)
 
     @staticmethod
     def check_download(path, url, redownload=False):
         '''检查文件是否下载'''
         if not redownload and os.path.exists(path):
             return
-        logging.info(f'下载"{url}"到"{path}"')
+        g.logapi.info(f'下载"{url}"到"{path}"')
         for i in Download.download(url, path):
-            logging.debug(f'"{url}"下载进度: {i}/100')
+            g.logapi.debug(f'"{url}"下载进度: {i}/100')

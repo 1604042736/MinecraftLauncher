@@ -4,7 +4,7 @@ import threading
 import time
 from zipfile import ZipFile
 from Api.download import *
-import logging
+import globals as g
 from Api.thread import Thread
 import globals as g
 import platform
@@ -62,15 +62,18 @@ class LaunchGame:
                maxmem=1024,
                minmem=256):
         '''启动'''
-        self.analysis_libraries()
-        self.analysis_assets()
+        thread_count = threading.active_count()+1
+        for _ in self.analysis_libraries():
+            pass
+        for _ in self.analysis_assets():
+            pass
 
-        while threading.active_count() > 2:  # 等待所有任务完成
+        while threading.active_count() > thread_count:  # 等待所有任务完成
             yield int(self.cur/self.total*100)
             time.sleep(1)  # 防止界面卡死
-            logging.debug(
-                f'剩余线程: {threading.active_count()},{len(threading.enumerate())}')
-            logging.debug(f'当前进度: {self.cur}/{self.total}')
+            g.logapi.debug(f'剩余线程: {threading.active_count()}({thread_count})')
+            g.logapi.debug(f'当前进度: {self.cur}/{self.total}')
+        g.logapi.debug(f'剩余线程: {threading.active_count()}({thread_count})')
 
         self.classpath.append(os.path.join(self.path, f'{self.name}.jar'))
 
@@ -129,13 +132,13 @@ class LaunchGame:
         args = args.replace('${classpath}', f'"{";".join(self.classpath)}"')
 
         args = args.replace('/', '\\')
-        logging.info(args)
+        g.logapi.info(args)
         os.system(args)
-        logging.info('完成启动')
+        g.logapi.info('完成启动')
 
-    def analysis_assets(self):
+    def analysis_assets(self, sep=False):
         '''解析所有asset'''
-        logging.info(f'解析asset')
+        g.logapi.info(f'解析asset')
         url = self.config['assetIndex']['url']
         name = self.config['assetIndex']['id']+'.json'
         indexes_path = os.path.join(self.asset_path, 'indexes')
@@ -145,8 +148,17 @@ class LaunchGame:
         indexes = json.load(open(indexes_file))
         l = len(indexes['objects'])
         self.total += l
+        thread_count = threading.active_count()
         for _, val in indexes['objects'].items():
             self.analysis_asset(val)
+
+        if sep:  # 独立调用
+            while threading.active_count() > thread_count:  # 等待所有任务完成
+                yield int(self.cur/self.total*100)
+                time.sleep(1)  # 防止界面卡死
+                g.logapi.debug(
+                    f'剩余线程: {threading.active_count()}({thread_count})')
+                g.logapi.debug(f'当前进度: {self.cur}/{self.total}')
 
     @Thread.func_thread
     def analysis_asset(self, val):
@@ -159,21 +171,31 @@ class LaunchGame:
             object_path = os.path.join(objects_path, f'{hash[:2]}/{hash}')
             Download.check_download(object_path, object_url, self.redownload)
         except Exception as e:
-            logging.error(e)
+            g.logapi.error(e)
         self.cur += 1  # 任务完成
 
-    def analysis_libraries(self):
+    def analysis_libraries(self, sep=False):
         '''解析json文件中的所有library'''
-        logging.info('解析libraries')
+        g.logapi.info('解析libraries')
         l = len(self.config['libraries'])
         self.total += l
+        thread_count = threading.active_count()
         for _, lib in enumerate(self.config['libraries']):
             self.analysis_library(lib)
+
+        if sep:  # 独立调用
+            while threading.active_count() > thread_count:  # 等待所有任务完成
+                yield int(self.cur/self.total*100)
+                time.sleep(1)  # 防止界面卡死
+                g.logapi.debug(
+                    f'剩余线程: {threading.active_count()}({thread_count})')
+                g.logapi.debug(f'当前进度: {self.cur}/{self.total}')
 
     @Thread.func_thread
     def analysis_library(self, lib):
         '''解析json文件中的library'''
         time.sleep(0.5)
+        g.logapi.debug(f'解析{lib["name"]}')
         try:
             if 'classifiers' in lib['downloads']:  # 有classifiers的为natives库
                 try:
@@ -194,7 +216,7 @@ class LaunchGame:
                 Download.check_download(path, url, self.redownload)
                 self.add_classpath(path)
         except Exception as e:
-            logging.error(e)
+            g.logapi.error(e)
 
         self.cur += 1  # 任务完成
 
@@ -238,7 +260,7 @@ class LaunchGame:
 
     def unzip_native(self, path):
         '''解压native'''
-        logging.info(f'解压"{path}"')
+        g.logapi.info(f'解压"{path}"')
         zip = ZipFile(path)
         for name in zip.namelist():
             if name.endswith(self.native_end[self.system_name]):

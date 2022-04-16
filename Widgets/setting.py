@@ -1,4 +1,4 @@
-import logging
+import shutil
 from QtBase.basewidget import *
 from Ui.setting_ui import *
 import globals as g
@@ -57,3 +57,15 @@ class Setting(BaseWidget, Ui_Setting):
     def on_cb_theme_currentTextChanged(self, text):
         g.config['theme'] = text
         apply_stylesheet(qApp, theme=text)
+
+    @pyqtSlot(bool)
+    def on_pb_dellog_clicked(self, _):
+        for i in os.listdir('Logs'):
+            try:
+                os.remove(os.path.join('Logs', i))
+            except:
+                pass
+
+    @pyqtSlot(bool)
+    def on_pb_openlogfolder_clicked(self, _):
+        os.startfile('Logs')

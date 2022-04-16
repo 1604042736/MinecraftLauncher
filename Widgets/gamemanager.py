@@ -1,4 +1,5 @@
 import json
+import globals as g
 from Api.game import Game
 from Api.launchgame import LaunchGame
 from QtBase.basewidget import *
@@ -19,6 +20,9 @@ class GameManager(BaseWidget, Ui_GameManager):
     def set_lw_gamelist(self):
         self.lw_gamelist.clear()
         for i in os.listdir(g.config['cur_gamepath']+'\\versions'):
+            if not os.path.exists(f'{g.config["cur_gamepath"]}\\versions\\{i}\\config.json'):
+                g.logapi.info(f'忽略没有配置的版本{i}')
+                continue
             item = QListWidgetItem()
             item.setSizeHint(QSize(256, 64))
             widget = GameInfo(i)
@@ -82,8 +86,8 @@ class GameInfo(QWidget):
 
     def on_pb_redownload_lib_clicked(self):
         g.dmr.add_task(f'重新下载lib', LaunchGame(
-            self.name, True).analysis_libraries)
+            self.name, True).analysis_libraries(True))
 
     def on_pb_redownload_asset_clicked(self):
         g.dmr.add_task(f'重新下载asset', LaunchGame(
-            self.name, True).analysis_assets)
+            self.name, True).analysis_assets(True))

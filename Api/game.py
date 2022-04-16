@@ -1,5 +1,7 @@
-import logging
+import globals as g
 import os
+from Api.thread import *
+import time
 from zipfile import ZIP_DEFLATED, ZipFile
 import globals as g
 import requests
@@ -58,6 +60,7 @@ class Game:
     def download_version(name, version,
                          forge_version=""):
         '''下载版本'''
+
         version_path = os.path.join(g.config['cur_gamepath'], 'versions')
         game_path = os.path.join(version_path, name)
         downloads = [[f'https://bmclapi2.bangbang93.com/version/{version}/client', game_path + f'\\{name}.jar'],
@@ -70,8 +73,6 @@ class Game:
         for task in downloads:
             for i in Download.download(task[0], task[1]):
                 yield i
-        if forge_version:
-            Game.install_forge(name, version, forge_version)
 
         config = {  # 游戏配置信息
             "name": name,
@@ -79,6 +80,9 @@ class Game:
             "forge_version": forge_version
         }
         json.dump(config, open(f'{game_path}\\config.json', mode='w'))
+
+        if forge_version:
+            Game.install_forge(name, version, forge_version)
 
     @staticmethod
     def install_forge(name, version, forge_version):
@@ -97,10 +101,19 @@ class Game:
 
         install_profile = json.load(
             open(os.path.join(game_path, f'install_profile.json')))
+        thread_count = threading.active_count()
+
         for i in install_profile['libraries']:
             Game.analysis_library(zip, i)
-        zip.close()
+        for i in forge_config['libraries']:
+            Game.analysis_library(zip, i)
 
+        while threading.active_count() > thread_count:
+            g.logapi.debug(f'剩余线程{threading.active_count()}({thread_count})')
+            time.sleep(1)
+        g.logapi.debug(f'剩余线程{threading.active_count()}({thread_count})')
+
+        zip.close()
         # forge-client
         lib_path = os.path.join(g.config['cur_gamepath'], f'libraries')
         userdev_path = game_path+f'\\userdev.jar'
@@ -108,7 +121,8 @@ class Game:
             lib_path, f'net/minecraftforge/forge/{version}-{forge_version}/forge-{version}-{forge_version}-client.jar')
         # 获取需要的文件
         file_subset_list = []
-        with ZipFile(userdev_path)as userdev:
+
+        with ZipFile(userdev_path) as userdev:
             for i in userdev.namelist():
                 if 'patches' in i and '.' in i:
                     file_subset_list.append(i)
@@ -137,8 +151,11 @@ class Game:
                 Game.splicing(a[key], b[key])  # 继续拼接
 
     @staticmethod
+    @Thread.func_thread
     def analysis_library(forge_zip, lib):
         '''解析lib'''
+        time.sleep(0.5)
+        g.logapi.debug(f'解析{lib["name"]}')
         lib_path = os.path.join(g.config['cur_gamepath'], f'libraries')
         path = os.path.join(lib_path, lib['downloads']['artifact']['path'])
         url = lib['downloads']['artifact']['url']
@@ -148,8 +165,11 @@ class Game:
             path = lib['downloads']['artifact']['path']
             jarpath = 'maven/'+path
             newpath = f'{lib_path}/{path}'
-            logging.debug(jarpath)
-            logging.debug(newpath)
+            try:
+                os.makedirs(os.path.dirname(newpath))
+            except:
+                pass
+            g.logapi.debug(f'将{jarpath}移动到{newpath}')
             forge_zip.extract(jarpath, lib_path)
             shutil.move(f'{lib_path}/{jarpath}', newpath)
 

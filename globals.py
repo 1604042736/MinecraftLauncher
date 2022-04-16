@@ -1,11 +1,34 @@
 '''存放全局数据'''
-import os
 import json
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='[%(asctime)s][%(levelname)s]: %(message)s')
+import datetime
+import os
 
-dmr = None  # 下载管理
+logfile = f'Logs\\{datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.log'
+logformat = logging.Formatter(
+    '[%(threadName)s=>%(funcName)s]:[%(asctime)s][%(levelname)s]:%(message)s', '%Y-%m-%d,%H:%M:%S')
+
+logapi = logging.getLogger()  # 日志接口
+logapi.setLevel(logging.DEBUG)
+
+# 将日志打印到文件和控制台中
+try:
+    os.makedirs('Logs')
+except:
+    pass
+fh = logging.FileHandler(logfile, mode='w', encoding='utf-8')
+fh.setLevel(logging.INFO)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+ch.setFormatter(logformat)
+fh.setFormatter(logformat)
+
+logapi.addHandler(ch)
+logapi.addHandler(fh)
+
+dmr = None  # 线程管理
 
 # 配置
 config = {  # 默认配置

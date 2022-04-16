@@ -36,58 +36,17 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>主题</string>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>最小内存</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="le_javapath"/>
-       </item>
-       <item row="3" column="1">
-        <widget class="QSpinBox" name="sb_maxmem">
-         <property name="maximum">
-          <number>8192</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>游戏窗口高度</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QSpinBox" name="sb_minmem">
-         <property name="maximum">
-          <number>8192</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="sb_width">
-         <property name="maximum">
-          <number>2000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>最大内存</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="sb_height">
-         <property name="minimum">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <number>2000</number>
          </property>
         </widget>
        </item>
@@ -98,15 +57,70 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>主题</string>
+          <string>游戏窗口高度</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>最大内存</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="pb_openlogfolder">
+         <property name="text">
+          <string>打开日志文件夹</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" colspan="2">
         <widget class="QComboBox" name="cb_theme"/>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="QSpinBox" name="sb_minmem">
+         <property name="maximum">
+          <number>8192</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QSpinBox" name="sb_maxmem">
+         <property name="maximum">
+          <number>8192</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="le_javapath"/>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QSpinBox" name="sb_height">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>2000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QSpinBox" name="sb_width">
+         <property name="maximum">
+          <number>2000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QPushButton" name="pb_dellog">
+         <property name="text">
+          <string>清除日志</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
