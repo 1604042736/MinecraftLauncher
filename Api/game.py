@@ -87,6 +87,7 @@ class Game:
     @staticmethod
     def install_forge(name, version, forge_version):
         '''安装forge'''
+        # TODO 解决.minecraft\libraries\net\minecraft\client\1.16.5-20210115.111550\client-1.16.5-20210115.111550-extra.jar文件下载问题
         version_path = os.path.join(g.config['cur_gamepath'], 'versions')
         game_path = os.path.join(version_path, name)
         config = json.load(open(os.path.join(game_path, f'{name}.json')))

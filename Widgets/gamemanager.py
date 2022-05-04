@@ -31,11 +31,10 @@ class GameManager(BaseWidget, Ui_GameManager):
             self.lw_gamelist.setItemWidget(item, widget)
 
     def delgame(self, name):
-        reply = QMessageBox.warning(
-            self, "删除", "确定删除?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+        def ok():
             Game.del_game(name)
             self.set_lw_gamelist()
+        self.warning_dialog("删除", "确定删除?", ok)
 
 
 class GameInfo(QWidget):

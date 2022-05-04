@@ -31,11 +31,10 @@ class GamePathManager(BaseWidget, Ui_GamePathManager):
         self.set_lw_path()
 
     def delpath(self, path):
-        reply = QMessageBox.warning(
-            self, "删除", "确定删除?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+        def ok():
             self.mgp.delpath(path)
             self.set_lw_path()
+        self.warning_dialog("删除", "确定删除?", ok)
 
     @pyqtSlot(bool)
     def on_pb_add_clicked(self, _):

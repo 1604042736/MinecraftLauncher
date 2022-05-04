@@ -5,12 +5,10 @@ import sys
 import json
 from Widgets.mainwindow import *
 import globals as g
-from qt_material import apply_stylesheet
 
 
 def main():
     app = QApplication(sys.argv)
-    apply_stylesheet(app, theme=g.config["theme"])
     mainwindow = MainWindow()
     mainwindow.show()
     mainwindow.ready()

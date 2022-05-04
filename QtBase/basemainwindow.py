@@ -55,7 +55,7 @@ class BaseMainWindow(QStackedWidget, BaseWidget):
         self.pb_back.setObjectName('pb_back')
         self.pb_back.setIcon(qta.icon('fa.arrow-left'))
         self.pb_back.hide()
-        bw.add_leftwidget(self.pb_back)
+        bw.add_leftwidget(self.pb_back, 0)
 
         bw.remove_rightwidget(bw.parentwin_button)
 

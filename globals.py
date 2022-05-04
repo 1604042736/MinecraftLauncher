@@ -42,8 +42,7 @@ config = {  # 默认配置
     "height": 618,
     "maxmem": 1024,
     "minmem": 256,
-    "javapath": "javaw",
-    "theme": "light_lightgreen.xml"
+    "javapath": "javaw"
 }
 
 try:

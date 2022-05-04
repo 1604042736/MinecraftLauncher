@@ -6,6 +6,7 @@ import Widgets.gamedownloader
 import Widgets.gamelauncher
 import Widgets.setting
 import Widgets.gamemanager
+import Widgets.about
 
 
 class Welcome(BaseWidget, Ui_Welcome):
@@ -36,6 +37,11 @@ class Welcome(BaseWidget, Ui_Welcome):
             "import_path": Widgets.gamemanager,
             "main_class": "GameManager",
             "describe": "对游戏进行管理"
+        },
+        "关于": {
+            "import_path": Widgets.about,
+            "main_class": "About",
+            "describe": "跟软件有关的信息"
         }
     }
 

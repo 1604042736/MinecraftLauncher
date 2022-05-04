@@ -52,6 +52,7 @@ class BaseWindow(QWidget):
         self.leftWidgets = []  # 标题栏靠左的控件
 
         self.title = QFrame(self)
+        self.title.setObjectName('title')
         self.title.move(0, 0)
         self.title.hide()
 
@@ -60,22 +61,22 @@ class BaseWindow(QWidget):
         self.close_button.resize(self.TH, self.TH)
         self.close_button.setObjectName('close_button')
         self.close_button.setIcon(qta.icon('fa.close'))
-        
+
         self.maxnormal_button = QPushButton(self.title)
         self.maxnormal_button.resize(self.TH, self.TH)
         self.maxnormal_button.setObjectName('maxnormal_button')
         self.maxnormal_button.setIcon(qta.icon('fa5.window-maximize'))
-        
+
         self.min_button = QPushButton(self.title)
         self.min_button.resize(self.TH, self.TH)
         self.min_button.setObjectName('min_button')
         self.min_button.setIcon(qta.icon('ei.minus'))
-        
+
         self.parentwin_button = QPushButton(self.title)
         self.parentwin_button.resize(self.TH, self.TH)
         self.parentwin_button.setObjectName('parentwin_button')
         self.parentwin_button.setIcon(qta.icon('fa.mail-reply-all'))
-        
+
         self.l_title = QLabel(self.title, text=self.widget.windowTitle())
         self.l_title.resize(128, self.TH)
 
@@ -86,6 +87,21 @@ class BaseWindow(QWidget):
         self.add_leftwidget(self.l_title)
 
         self.title.raise_()
+
+        self.title.setStyleSheet('''
+QFrame{
+    background-color:rgb(255,255,255);
+}
+QPushButton{
+    border:none;
+}
+QPushButton:hover{
+    background-color:rgb(200,200,200);
+}
+QPushButton#close_button:hover{
+    background-color:rgb(255,0,0);
+}
+        ''')
 
     def set_connection(self):
         '''设置信号和槽'''
@@ -130,6 +146,7 @@ class BaseWindow(QWidget):
 
     def resize_other_widget(self):
         '''设置其他控件大小'''
+        # 实时计算位置
         self.RL = 0
         for widget in self.rightWidgets:
             if widget.isHidden():
@@ -153,6 +170,7 @@ class BaseWindow(QWidget):
         pos = a0.pos()
         try:
             if pos.x() < 0 and pos.y() < 0:  # 防止超出屏幕(一般发生在最大化的时侯)
+                self.maxnormal_button.setIcon(qta.icon('fa5.window-restore'))
                 # 桌面的宽高,也就是窗口最大化时的宽高
                 width = QDesktopWidget().availableGeometry().width()
                 height = QDesktopWidget().availableGeometry().height()
@@ -211,9 +229,11 @@ class BaseWindow(QWidget):
                 return True, HTBOTTOM
         return False, 0
 
-    def add_rightwidget(self, widget: QWidget):
+    def add_rightwidget(self, widget: QWidget, index=-1):
         '''往标题栏右侧添加控件'''
-        self.rightWidgets.append(widget)
+        if index < 0:
+            index = len(self.rightWidgets)+index+1
+        self.rightWidgets.insert(index, widget)
         widget.resize(widget.width(), self.TH)
         self.resize_other_widget()
 
@@ -223,9 +243,11 @@ class BaseWindow(QWidget):
         widget.hide()  # 避免干扰
         self.resize_other_widget()
 
-    def add_leftwidget(self, widget: QWidget):
+    def add_leftwidget(self, widget: QWidget, index=-1):
         '''往标题栏左侧添加控件'''
-        self.leftWidgets.append(widget)
+        if index < 0:
+            index = len(self.rightWidgets)+index+1
+        self.leftWidgets.insert(index, widget)
         widget.resize(widget.width(), self.TH)
         self.resize_other_widget()
 

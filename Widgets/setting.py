@@ -2,7 +2,7 @@ import shutil
 from QtBase.basewidget import *
 from Ui.setting_ui import *
 import globals as g
-from qt_material import *
+import os
 
 
 class Setting(BaseWidget, Ui_Setting):
@@ -20,10 +20,6 @@ class Setting(BaseWidget, Ui_Setting):
         self.le_javapath.setText(g.config['javapath'])
         self.sb_maxmem.setValue(g.config['maxmem'])
         self.sb_minmem.setValue(g.config['minmem'])
-        theme = g.config['theme']
-        self.cb_theme.clear()
-        self.cb_theme.addItems(list_themes())
-        self.cb_theme.setCurrentText(theme)
 
     def save_all(self):
         '''保存所有'''
@@ -52,11 +48,6 @@ class Setting(BaseWidget, Ui_Setting):
     @pyqtSlot(int)
     def on_sb_minmem_valueChanged(self, _):
         g.config['minmem'] = self.sb_minmem.value()
-
-    @pyqtSlot(str)
-    def on_cb_theme_currentTextChanged(self, text):
-        g.config['theme'] = text
-        apply_stylesheet(qApp, theme=text)
 
     @pyqtSlot(bool)
     def on_pb_dellog_clicked(self, _):
