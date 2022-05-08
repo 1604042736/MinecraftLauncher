@@ -1,4 +1,5 @@
 from importlib import import_module
+from QtBase.baselistwidget import BaseListWidget
 from Ui.welcome_ui import *
 from QtBase.basewidget import *
 import Widgets.gamepathmanager

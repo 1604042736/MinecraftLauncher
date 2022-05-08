@@ -21,13 +21,20 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QListWidget" name="lw_func"/>
+       <widget class="BaseListWidget" name="lw_func"/>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BaseListWidget</class>
+   <extends>QListWidget</extends>
+   <header>QtBase.baselistwidget</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

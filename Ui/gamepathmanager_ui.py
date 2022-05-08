@@ -22,7 +22,7 @@ class Ui_GamePathManager(object):
         self.gridLayout.addWidget(self.pb_add, 0, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
-        self.lw_path = QtWidgets.QListWidget(GamePathManager)
+        self.lw_path = BaseListWidget(GamePathManager)
         self.lw_path.setObjectName("lw_path")
         self.gridLayout.addWidget(self.lw_path, 0, 1, 2, 1)
 
@@ -33,3 +33,4 @@ class Ui_GamePathManager(object):
         _translate = QtCore.QCoreApplication.translate
         GamePathManager.setWindowTitle(_translate("GamePathManager", "游戏路径管理"))
         self.pb_add.setText(_translate("GamePathManager", "添加"))
+from QtBase.baselistwidget import BaseListWidget

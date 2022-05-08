@@ -17,7 +17,7 @@ class Ui_ThreadManager(object):
         ThreadManager.resize(1000, 618)
         self.gridLayout = QtWidgets.QGridLayout(ThreadManager)
         self.gridLayout.setObjectName("gridLayout")
-        self.lw_task = QtWidgets.QListWidget(ThreadManager)
+        self.lw_task = BaseListWidget(ThreadManager)
         self.lw_task.setObjectName("lw_task")
         self.gridLayout.addWidget(self.lw_task, 0, 0, 1, 1)
 
@@ -27,3 +27,4 @@ class Ui_ThreadManager(object):
     def retranslateUi(self, ThreadManager):
         _translate = QtCore.QCoreApplication.translate
         ThreadManager.setWindowTitle(_translate("ThreadManager", "线程管理"))
+from QtBase.baselistwidget import BaseListWidget

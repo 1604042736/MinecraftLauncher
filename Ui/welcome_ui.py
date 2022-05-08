@@ -21,7 +21,7 @@ class Ui_Welcome(object):
         self.groupBox.setObjectName("groupBox")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.lw_func = QtWidgets.QListWidget(self.groupBox)
+        self.lw_func = BaseListWidget(self.groupBox)
         self.lw_func.setObjectName("lw_func")
         self.gridLayout_2.addWidget(self.lw_func, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
@@ -33,3 +33,4 @@ class Ui_Welcome(object):
         _translate = QtCore.QCoreApplication.translate
         Welcome.setWindowTitle(_translate("Welcome", "欢迎"))
         self.groupBox.setTitle(_translate("Welcome", "所有功能"))
+from QtBase.baselistwidget import BaseListWidget

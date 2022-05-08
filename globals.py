@@ -17,7 +17,7 @@ try:
 except:
     pass
 fh = logging.FileHandler(logfile, mode='w', encoding='utf-8')
-fh.setLevel(logging.INFO)
+fh.setLevel(logging.DEBUG)
 
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)

@@ -17,7 +17,7 @@ class Ui_GameManager(object):
         GameManager.resize(1000, 618)
         self.gridLayout = QtWidgets.QGridLayout(GameManager)
         self.gridLayout.setObjectName("gridLayout")
-        self.lw_gamelist = QtWidgets.QListWidget(GameManager)
+        self.lw_gamelist = BaseListWidget(GameManager)
         self.lw_gamelist.setObjectName("lw_gamelist")
         self.gridLayout.addWidget(self.lw_gamelist, 0, 0, 1, 1)
 
@@ -27,3 +27,4 @@ class Ui_GameManager(object):
     def retranslateUi(self, GameManager):
         _translate = QtCore.QCoreApplication.translate
         GameManager.setWindowTitle(_translate("GameManager", "游戏管理"))
+from QtBase.baselistwidget import BaseListWidget

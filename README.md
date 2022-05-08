@@ -1,8 +1,5 @@
 # MinecraftLauncher
 
-## 平台
-- Windows
-
 ## 运行
 在命令行中依次执行以下内容
 ```

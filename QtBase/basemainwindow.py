@@ -15,6 +15,7 @@ class BaseMainWindow(QStackedWidget, BaseWidget):
         self.currentChanged.connect(self.on_self_currentChanged)
 
         g.mainwindow = self
+        self.setMouseTracking(True)
 
     def ready(self):
         '''当一切准备好后...'''
@@ -57,7 +58,7 @@ class BaseMainWindow(QStackedWidget, BaseWidget):
         self.pb_back.hide()
         bw.add_leftwidget(self.pb_back, 0)
 
-        bw.remove_rightwidget(bw.parentwin_button)
+        bw.remove_widget(bw.parentwin_button)
 
         self.pb_sepwin = QPushButton(bw.title)
         self.pb_sepwin.resize(bw.TH, bw.TH)

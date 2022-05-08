@@ -12,6 +12,8 @@ import shutil
 
 class Game:
     '''与游戏有关的操作'''
+    class_path = {}  # class所对的路径
+
     @staticmethod
     def get_versions() -> list:
         '''获取游戏版本'''
@@ -85,9 +87,11 @@ class Game:
             Game.install_forge(name, version, forge_version)
 
     @staticmethod
-    def install_forge(name, version, forge_version):
+    def install_forge(name, version, forge_version, thread_shift=0):
         '''安装forge'''
-        # TODO 解决.minecraft\libraries\net\minecraft\client\1.16.5-20210115.111550\client-1.16.5-20210115.111550-extra.jar文件下载问题
+        # TODO Cannot find launch target fmlclient, unable to launch
+        Game.class_path = {}
+
         version_path = os.path.join(g.config['cur_gamepath'], 'versions')
         game_path = os.path.join(version_path, name)
         config = json.load(open(os.path.join(game_path, f'{name}.json')))
@@ -102,7 +106,8 @@ class Game:
 
         install_profile = json.load(
             open(os.path.join(game_path, f'install_profile.json')))
-        thread_count = threading.active_count()
+
+        thread_count = threading.active_count()+thread_shift
 
         for i in install_profile['libraries']:
             Game.analysis_library(zip, i)
@@ -114,9 +119,9 @@ class Game:
             time.sleep(1)
         g.logapi.debug(f'剩余线程{threading.active_count()}({thread_count})')
 
-        zip.close()
-        # forge-client
         lib_path = os.path.join(g.config['cur_gamepath'], f'libraries')
+        # forge-client
+        '''
         userdev_path = game_path+f'\\userdev.jar'
         client_path = os.path.join(
             lib_path, f'net/minecraftforge/forge/{version}-{forge_version}/forge-{version}-{forge_version}-client.jar')
@@ -128,12 +133,115 @@ class Game:
                 if 'patches' in i and '.' in i:
                     file_subset_list.append(i)
         Game.stream_conents(userdev_path, client_path, file_subset_list,
-                            lambda path: '/'.join(path.split('/')[1:]))
+                            lambda path: '/'.join(path.split('/')[1:]))'''
 
+        # client
+        client_mapping = Game.get_client(install_profile, 'MAPPINGS', lib_path)
+        client_binpatch = Game.get_client(
+            install_profile, 'BINPATCH', lib_path)
+
+        client_extra = Game.get_special_client(
+            install_profile, 'MC_EXTRA', lib_path)+'.jar'
+        client_slim = Game.get_special_client(
+            install_profile, 'MC_SLIM', lib_path)+'.jar'
+        client_srg = Game.get_special_client(
+            install_profile, 'MC_SRG', lib_path)+'.jar'
+        client_patched = Game.get_special_client(
+            install_profile, 'PATCHED', lib_path)+'.jar'
+
+        zip.extract(client_binpatch[1:], game_path)
+        client_binpatch = os.path.abspath(game_path+f'{client_binpatch}')
+
+        for i in install_profile['processors']:
+            Game.execute(i,
+                         lib_path,
+                         game_path + f'\\{name}.jar',
+                         client_extra,
+                         client_slim,
+                         client_srg,
+                         client_patched,
+                         client_binpatch,
+                         client_mapping
+                         )
+
+        zip.close()
         # 拼接
         Game.splicing(config, forge_config)
         json.dump(config, open(os.path.join(
             game_path, f'{name}.json'), mode='w'))
+
+    @staticmethod
+    def get_special_client(install_profile, key, lib_path):
+        '''获取特殊的client'''
+        val = install_profile["data"][key]["client"]
+        a = val[1:-1]
+        b, c = a.split(':', 1)
+        d = b.replace('.', '/')
+        e = '/'.join(c.split(':')[:-1])
+        f = c.replace(':', '-').replace('@', '.')
+        return os.path.abspath(os.path.join(lib_path, d+'/'+e+'/'+f))
+
+    @staticmethod
+    def get_client(install_profile, key, lib_path):
+        '''获取install_profile["data"][key]["client"]'''
+        val = install_profile["data"][key]["client"]
+        if val[0] == '[':
+            return os.path.abspath(os.path.join(lib_path, Game.turn_to_path(val)))
+        else:
+            return val
+
+    @staticmethod
+    def turn_to_path(name):
+        '''转换成path'''
+        a = name[1:-1]
+        b, c = a.split(':', 1)
+        d = b.replace('.', '/')
+        e = c.replace(':', '-').replace('@', '.')
+        return d+'/'+e
+
+    @staticmethod
+    def execute(processor, lib_path, minecraft, extra, slim, srg, patched, binpatch, mapping):
+        '''执行'''
+        g.logapi.info(f'执行{processor["jar"]}')
+        args = ''
+
+        args += '-cp '
+
+        classpath = []
+        for i in processor['classpath']:
+            classpath.append(os.path.abspath(Game.class_path[i]))
+        classpath.append(os.path.abspath(Game.class_path[processor["jar"]]))
+
+        args += '"'+';'.join(classpath)+'" '
+
+        mainclass = ''
+        jar = processor['jar']
+        if 'installertools' in jar:
+            mainclass = 'net.minecraftforge.installertools.ConsoleTool'
+        elif 'jarsplitter' in jar:
+            mainclass = 'net.minecraftforge.jarsplitter.ConsoleTool'
+        elif 'md-5' in jar:
+            mainclass = ' net.md_5.specialsource.SpecialSource'
+        elif 'binarypatcher' in jar:
+            mainclass = 'net.minecraftforge.binarypatcher.ConsoleTool'
+        args += mainclass
+
+        for i in processor['args']:
+            if i[0] == '[':
+                i = os.path.abspath(Game.class_path[i[1:-1]])
+            args += ' '+i
+
+        args = args.replace('{MINECRAFT_JAR}', minecraft)
+        args = args.replace('{MC_SLIM}', slim)
+        args = args.replace('{MC_EXTRA}', extra)
+        args = args.replace('{MC_SRG}', srg)
+        args = args.replace('{PATCHED}', patched)
+        args = args.replace('{BINPATCH}', binpatch)
+        args = args.replace('{MAPPINGS}', mapping)
+
+        order = f'java {args}'
+        g.logapi.debug(order)
+        os.system(order)
 
     @ staticmethod
     def splicing(a, b):
@@ -160,9 +268,11 @@ class Game:
         lib_path = os.path.join(g.config['cur_gamepath'], f'libraries')
         path = os.path.join(lib_path, lib['downloads']['artifact']['path'])
         url = lib['downloads']['artifact']['url']
+        Game.class_path[lib["name"]] = path
         if url:  # 下载
             Download.check_download(path, url)
         else:  # 解压
+            return
             path = lib['downloads']['artifact']['path']
             jarpath = 'maven/'+path
             newpath = f'{lib_path}/{path}'

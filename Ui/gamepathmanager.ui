@@ -35,10 +35,17 @@
     </spacer>
    </item>
    <item row="0" column="1" rowspan="2">
-    <widget class="QListWidget" name="lw_path"/>
+    <widget class="BaseListWidget" name="lw_path"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BaseListWidget</class>
+   <extends>QListWidget</extends>
+   <header>QtBase.baselistwidget</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

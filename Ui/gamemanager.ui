@@ -15,10 +15,17 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QListWidget" name="lw_gamelist"/>
+    <widget class="BaseListWidget" name="lw_gamelist"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BaseListWidget</class>
+   <extends>QListWidget</extends>
+   <header>QtBase.baselistwidget</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

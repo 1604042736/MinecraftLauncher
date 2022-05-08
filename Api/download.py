@@ -9,6 +9,8 @@ class Download:
     @staticmethod
     def download(url, path):
         '''下载'''
+        if url=='':
+            return
         try:
             # 创建这个路径
             os.makedirs(os.path.dirname(path))

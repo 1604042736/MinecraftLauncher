@@ -80,8 +80,8 @@ class GameInfo(QWidget):
         self.delgame.emit(self.name)
 
     def on_pb_reinstall_forge_clicked(self):
-        Game.install_forge(
-            self.name, self.config['version'], self.config['forge_version'])
+        g.dmr.add_task(f'重新安装forge', Game.install_forge, args=(
+            self.name, self.config['version'], self.config['forge_version'],1))
 
     def on_pb_redownload_lib_clicked(self):
         g.dmr.add_task(f'重新下载lib', LaunchGame(
