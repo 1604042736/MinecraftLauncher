@@ -78,7 +78,7 @@ class LaunchGame:
         self.classpath.append(os.path.join(self.path, f'{self.name}.jar'))
 
         # jvm参数必须放在游戏参数前!!!
-        args = f'cd "{os.path.abspath(g.config["cur_gamepath"])}" &  {javapath} '
+        args = f'cd "{os.path.abspath(g.config["cur_gamepath"])}" & start {javapath} '
         args += f'-XX:+UseG1GC '
         args += f'-XX:-UseAdaptiveSizePolicy '
         args += f'-XX:-OmitStackTraceInFastThrow '

@@ -4,7 +4,7 @@ import logging
 import datetime
 import os
 
-logfile = f'Logs\\{datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.log'
+logfile = f'Logs\\{datetime.datetime.now().strftime("%Y-%m-%d-%H")}.log'
 logformat = logging.Formatter(
     '[%(threadName)s=>%(funcName)s]:[%(asctime)s][%(levelname)s]:%(message)s', '%Y-%m-%d,%H:%M:%S')
 
@@ -17,7 +17,7 @@ try:
 except:
     pass
 fh = logging.FileHandler(logfile, mode='w', encoding='utf-8')
-fh.setLevel(logging.DEBUG)
+fh.setLevel(logging.INFO)
 
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -50,3 +50,6 @@ try:
         config[key] = val  # 保证默认配置中有配置文件中没有的内容
 except:
     pass
+
+if not os.path.exists(config['cur_gamepath']+'/versions/'+config['cur_version']):
+    config['cur_version'] = ''

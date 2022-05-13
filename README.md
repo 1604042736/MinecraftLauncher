@@ -10,3 +10,7 @@ main.py
 
 ## 鸣谢
 - `bangbang93`: 提供[BMCLAPI镜像源](https://bmclapidoc.bangbang93.com/)
+
+## Bug
+- 必须下载并运行原版后才能运行forge版
+- forge版无法正常运行

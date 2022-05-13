@@ -272,7 +272,6 @@ class Game:
         if url:  # 下载
             Download.check_download(path, url)
         else:  # 解压
-            return
             path = lib['downloads']['artifact']['path']
             jarpath = 'maven/'+path
             newpath = f'{lib_path}/{path}'
