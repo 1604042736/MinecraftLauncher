@@ -9,7 +9,7 @@ class Download:
     @staticmethod
     def download(url, path):
         '''下载'''
-        if url=='':
+        if url == '':
             return
         try:
             # 创建这个路径
@@ -20,7 +20,7 @@ class Download:
         with open(path, 'wb')as fileobj:
             while True:
                 try:
-                    rsp = requests.get(url, stream=True, timeout=5)
+                    rsp = requests.get(url, stream=True, timeout=10)
                     offset = 0
                     for chunk in rsp.iter_content(chunk_size=10240):
                         if not chunk:
@@ -36,7 +36,7 @@ class Download:
                     g.logapi.error(e)
                     if url:
                         g.logapi.info(f'尝试重新下载"{url}"')
-                        time.sleep(0.5)
+                        time.sleep(1)
 
     @staticmethod
     def check_download(path, url, redownload=False):

@@ -1,5 +1,7 @@
 # MinecraftLauncher
 
+![](https://img.shields.io/github/languages/code-size/1604042736/MinecraftLauncher)
+
 ## 运行
 在命令行中依次执行以下内容
 ```
@@ -12,5 +14,5 @@ main.py
 - `bangbang93`: 提供[BMCLAPI镜像源](https://bmclapidoc.bangbang93.com/)
 
 ## Bug
-- 必须下载并运行原版后才能运行forge版
-- forge版无法正常运行
+- library库有可能下载不完整
+    - 可以通过Minecraft日志找到对应的库，删除后重新启动游戏，直到成功启动为止

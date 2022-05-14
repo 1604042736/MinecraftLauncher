@@ -204,9 +204,11 @@ class LaunchGame:
                         self.lib_path, lib['downloads']['classifiers'][native_name]['path'])
                     url = lib['downloads']['classifiers'][native_name]['url']
                     Download.check_download(path, url, self.redownload)
+                    if 'rules' in lib and not self.check_rule(lib['rules']):
+                        return
                     self.unzip_native(path)
-                except KeyError:
-                    pass
+                except KeyError as e:
+                    g.logapi.error(e)
             else:
                 if 'rules' in lib and not self.check_rule(lib['rules']):
                     return
@@ -241,6 +243,7 @@ class LaunchGame:
         else:
             name = '-'.join(file.split('-')[:1])
         version = '.'.join(file.split('-')[-1].split('.')[:-1])
+        g.logapi.debug(f'{path},{version}')
         # 选择没有出现过的或者最新的版本
         if name not in self.cp_memory or self.compare_cp_version(version, self.cp_memory[name][0]):
             if name in self.cp_memory:  # 原先有的
@@ -254,9 +257,9 @@ class LaunchGame:
         va = map(int, a.split('.'))
         vb = map(int, b.split('.'))
         for i, j in zip(va, vb):
-            if i < j:
-                return False
-        return True
+            if i>j:
+                return True
+        return False
 
     def unzip_native(self, path):
         '''解压native'''
