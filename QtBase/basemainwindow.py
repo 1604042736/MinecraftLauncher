@@ -82,3 +82,10 @@ class BaseMainWindow(QStackedWidget, BaseWidget):
         '''释放窗口'''
         self.removeWidget(widget)
         self.caughtwidgets.remove(widget)
+
+    def show(self) -> None:
+        super().show()
+        self.ready()
+
+    def keyPressEvent(self, a0: QKeyEvent) -> None:
+        self.currentWidget().keyPressEvent(a0)

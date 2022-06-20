@@ -89,7 +89,6 @@ class Game:
     @staticmethod
     def install_forge(name, version, forge_version, thread_shift=0):
         '''安装forge'''
-        # TODO Cannot find launch target fmlclient, unable to launch
         Game.class_path = {}
 
         version_path = os.path.join(g.config['cur_gamepath'], 'versions')

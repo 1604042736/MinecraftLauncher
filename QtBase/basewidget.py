@@ -13,6 +13,7 @@ class BaseWidget(QWidget):
         super().__init__(parent)
         self.basewindow = None  # 如果窗口显示了这个变量不会为None
         self.setMouseTracking(True)
+        self.resize(1000, 618)
 
     def show(self, mode='none') -> None:
         '''通过BaseWindow显示'''

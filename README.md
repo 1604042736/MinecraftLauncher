@@ -2,13 +2,14 @@
 
 ![](https://img.shields.io/github/languages/code-size/1604042736/MinecraftLauncher)
 
-## 运行
+## 配置
 在命令行中依次执行以下内容
 ```
 pip install -r requirements.txt
-main.py
 ```
-注意第一行命令只需运行一次，之后直接运行`main.py`就行了
+
+## 运行
+直接运行`main.py`即可
 
 ## 鸣谢
 - `bangbang93`: 提供[BMCLAPI镜像源](https://bmclapidoc.bangbang93.com/)

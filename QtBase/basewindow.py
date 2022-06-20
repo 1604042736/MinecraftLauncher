@@ -1,3 +1,4 @@
+import platform
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -140,3 +141,10 @@ QPushButton#close_button:hover{
             self.remove_leftwidget(widget)
         except:
             self.remove_rightwidget(widget)
+
+
+system = platform.system()
+print(system)
+if system == 'Windows':
+    from QtBase.basewindow_windows import BaseWindow_Windows
+    BaseWindow = BaseWindow_Windows

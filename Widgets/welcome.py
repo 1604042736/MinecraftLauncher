@@ -63,15 +63,6 @@ class Welcome(BaseWidget, Ui_Welcome):
             self.lw_func.addItem(item)
             self.lw_func.setItemWidget(item, widget)
 
-    def paintEvent(self, a0) -> None:
-        qp = QPainter()
-        qp.begin(self)
-        x, y = int((self.width()-32)/2), 0
-        w, h = 32, 1
-        qp.setPen(QPen(Qt.red, 1, Qt.SolidLine))
-        qp.drawRect(x, y, w, h)
-        qp.end()
-
 
 class FuncInfo(QWidget):
     '''功能信息'''
