@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import globals as g
 import os
 from Api.thread import *

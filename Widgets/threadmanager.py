@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from inspect import isgenerator
 from QtBase.basewidget import *
 from Ui.threadmanager_ui import *

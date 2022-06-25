@@ -23,7 +23,8 @@ class Ui_Setting(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 980, 598))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2 = QtWidgets.QGridLayout(
+            self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.label_4 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName("label_4")
@@ -40,7 +41,8 @@ class Ui_Setting(object):
         self.sb_height.setMaximum(2000)
         self.sb_height.setObjectName("sb_height")
         self.gridLayout_2.addWidget(self.sb_height, 1, 1, 1, 2)
-        self.pb_openlogfolder = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pb_openlogfolder = QtWidgets.QPushButton(
+            self.scrollAreaWidgetContents)
         self.pb_openlogfolder.setObjectName("pb_openlogfolder")
         self.gridLayout_2.addWidget(self.pb_openlogfolder, 5, 2, 1, 1)
         self.sb_minmem = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)

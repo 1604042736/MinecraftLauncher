@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from Api.launchgame import LaunchGame
 from QtBase.basewidget import *

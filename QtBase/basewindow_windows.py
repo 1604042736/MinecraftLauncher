@@ -1,11 +1,14 @@
-from PyQt5.QtWidgets import *
+# -*- coding: utf-8 -*-
+from ctypes.wintypes import *
+
+import qtawesome as qta
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from ctypes.wintypes import *
-from win32gui import *
+from PyQt5.QtWidgets import *
 from win32con import *
+from win32gui import *
+
 import QtBase as g
-import qtawesome as qta
 
 
 class BaseWindow_Windows(QWidget):

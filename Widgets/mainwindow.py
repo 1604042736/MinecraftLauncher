@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from QtBase.basemainwindow import *
 from Widgets.threadmanager import ThreadManager
 from Widgets.welcome import *
@@ -23,7 +24,7 @@ class MainWindow(BaseMainWindow):
             win.pb_home.resize(bw.TH, bw.TH)
             win.pb_home.setObjectName('pb_home')
             win.pb_home.setIcon(qta.icon('fa.home'))
-            win.pb_home.clicked.connect(lambda: self.show())
+            win.pb_home.clicked.connect(lambda: self.show(False))
             bw.add_rightwidget(win.pb_home)
 
         win.pb_dm = QPushButton(bw.title)

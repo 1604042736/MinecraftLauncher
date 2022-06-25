@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''存放全局数据'''
 import json
 import logging

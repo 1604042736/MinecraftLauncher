@@ -1,4 +1,4 @@
-import shutil
+# -*- coding: utf-8 -*-
 from QtBase.basewidget import *
 from Ui.setting_ui import *
 import globals as g

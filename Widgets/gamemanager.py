@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import globals as g
 from Api.game import Game

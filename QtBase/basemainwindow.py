@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from QtBase.basewidget import *
 import QtBase as g
 import qtawesome as qta
@@ -83,9 +84,10 @@ class BaseMainWindow(QStackedWidget, BaseWidget):
         self.removeWidget(widget)
         self.caughtwidgets.remove(widget)
 
-    def show(self) -> None:
+    def show(self, call_ready=True) -> None:
         super().show()
-        self.ready()
+        if call_ready:
+            self.ready()
 
     def keyPressEvent(self, a0: QKeyEvent) -> None:
         self.currentWidget().keyPressEvent(a0)

@@ -27,7 +27,8 @@ class Ui_About(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 960, 566))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_3 = QtWidgets.QGridLayout(
+            self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName("label")

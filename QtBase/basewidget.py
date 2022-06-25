@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import *
 from QtBase.basewindow import *
 import QtBase as g  # 用__init__.py存储全局信息

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Api.managegamepath import ManageGamePath
 from Ui.gamepathmanager_ui import *
 from QtBase.basewidget import *
@@ -58,7 +59,7 @@ class GamePathInfo(QWidget):
 
         self.l_path = QLabel(self, text=self.gamepath)
         if self.is_cur:
-            self.l_path.setStyleSheet('color:red')
+            self.l_path.setStyleSheet('color:red;')
         self.hbox.addWidget(self.l_path)
 
         self.pb_settocur = QPushButton(self, text='设置成当前路径')
@@ -67,7 +68,8 @@ class GamePathInfo(QWidget):
         self.pb_settocur.clicked.connect(self.on_pb_settocur_clicked)
         self.hbox.addWidget(self.pb_settocur)
 
-        self.pb_del = QPushButton(self, text='删除')
+        self.pb_del = QPushButton(self)
+        self.pb_del.setIcon(qta.icon('mdi.delete'))
         self.pb_del.clicked.connect(self.on_pb_del_clicked)
         self.hbox.addWidget(self.pb_del)
 

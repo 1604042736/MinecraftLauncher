@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 from importlib import import_module
-from QtBase.baselistwidget import BaseListWidget
 from Ui.welcome_ui import *
 from QtBase.basewidget import *
 import Widgets.gamepathmanager
@@ -8,6 +8,7 @@ import Widgets.gamelauncher
 import Widgets.setting
 import Widgets.gamemanager
 import Widgets.about
+import Widgets.moddownloader
 
 
 class Welcome(BaseWidget, Ui_Welcome):
@@ -43,6 +44,11 @@ class Welcome(BaseWidget, Ui_Welcome):
             "import_path": Widgets.about,
             "main_class": "About",
             "describe": "跟软件有关的信息"
+        },
+        "模组下载": {
+            "import_path": Widgets.moddownloader,
+            "main_class": "ModDownloader",
+            "describe": "下载模组"
         }
     }
 
@@ -81,7 +87,8 @@ class FuncInfo(QWidget):
 
         self.l_describe = QLabel(self, text=describe)
 
-        self.pb_start = QPushButton(self, text='启动')
+        self.pb_start = QPushButton(self)
+        self.pb_start.setIcon(qta.icon('msc.debug-start'))
         self.pb_start.clicked.connect(self.on_pb_start_clicked)
 
         self.hbox.addWidget(self.l_describe)

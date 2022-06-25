@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 import platform
-from PyQt5.QtWidgets import *
+
+import qtawesome as qta
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
 import QtBase as g
-import qtawesome as qta
 
 
 class BaseWindow(QWidget):

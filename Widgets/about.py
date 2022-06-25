@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from QtBase.basewidget import *
 from Ui.about_ui import *
 import webbrowser

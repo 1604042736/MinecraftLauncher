@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import os
 import threading
@@ -257,7 +258,7 @@ class LaunchGame:
         va = map(int, a.split('.'))
         vb = map(int, b.split('.'))
         for i, j in zip(va, vb):
-            if i>j:
+            if i > j:
                 return True
         return False
 

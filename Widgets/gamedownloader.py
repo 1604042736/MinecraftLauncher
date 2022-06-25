@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from QtBase.basewidget import *
 from Ui.gamedownloader_ui import *
 from Api.game import Game
